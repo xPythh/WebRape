@@ -1,6 +1,7 @@
 exports.config = {
 	title: "Demo Module",
 	version: 0.1,
+	modulesUsed: [ "puppeteer" ]
 };
 
 // You NEED to use Async on all the programn else user will be prompted back to the menu.

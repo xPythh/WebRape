@@ -11,6 +11,7 @@ exports.Logo = function()
 
 exports.MainMenu = async function (term, modules)
 {
+	console.clear();
 	console.log(this.Logo());
 	var menuContent = [];
 	for (var newModule of modules)

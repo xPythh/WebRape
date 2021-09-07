@@ -11,8 +11,9 @@ var fs;
 
 (async () => {
 	console.log(Render.Logo())
-	await DepedenciesManager.Start(vars);
-	await new Promise(r => setTimeout(r, 20));
+	DepedenciesManager.AddModule("terminal-kit");
+	DepedenciesManager.AddModule("request");
+
 	
 	// Load Installed Depedencies
 	term = require("terminal-kit").terminal;
@@ -25,6 +26,8 @@ async function MainMenu()
 {
 	console.clear()
 	var modules = await GetConfigs();
+	await DepedenciesManager.Start(vars);
+	await new Promise(r => setTimeout(r, 2000)); // Let user see Any infos
 	await Render.MainMenu(term, modules);
 	await MainMenu();
 }
@@ -50,7 +53,13 @@ async function GetConfigs()
 				console.log(`${vars.red}[${vars.white}ERROR${vars.red}]${vars.white} Error When Loading module ${vars.red}${newModuleName.replace(".js", "")}${vars.white}`);
 				console.log(`Module doesn't have a Config Version`);
 				process.exit(0);
+			} else if (!Array.isArray(newModule["config"]["modulesUsed"])) {
+				console.log(`${vars.red}[${vars.white}ERROR${vars.red}]${vars.white} Error When Loading module ${vars.red}${newModuleName.replace(".js", "")}${vars.white}`);
+				console.log(`Module doesn't have a Valid array of modules`);
+				process.exit(0);
 			}
+			for (var requiredModule of newModule["config"]["modulesUsed"])
+				DepedenciesManager.AddModule(requiredModule);
 
 			loadedModules.push({
 				name: newModule["config"]["title"],

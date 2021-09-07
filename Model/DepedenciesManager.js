@@ -1,9 +1,9 @@
 const util = require('util');
 const exec = require('child_process').exec;
 
+var modules = [ ]
 exports.Start = async function(vars)
 {
-    var modules = [ "terminal-kit", "request" ]
     for (var moduleName of modules)
     {
         console.log(`${vars.green}[${vars.white}Dep'Mgr${vars.green}]${vars.white} Checking for ${moduleName}`)
@@ -18,6 +18,7 @@ exports.Start = async function(vars)
     }
 }
 
+exports.AddModule = async function(moduleName) { modules.push(moduleName); }
 
 function execPromise(command) {
     return new Promise(function(resolve, reject) {
